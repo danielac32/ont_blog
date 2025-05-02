@@ -35,6 +35,13 @@ class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
   bool _isScrolled = false;
 
+
+  final GlobalKey somosOntKey = GlobalKey();
+  final GlobalKey publicacionesKey = GlobalKey();
+  final GlobalKey gestionKey = GlobalKey();
+  final GlobalKey contactanosKey = GlobalKey();
+
+
   @override
   void initState() {
     super.initState();
@@ -50,6 +57,18 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         _isScrolled = false;
       });
+    }
+
+  }
+
+  void _scrollToSection(GlobalKey key) {
+    final context = key.currentContext;
+    if (context != null) {
+      Scrollable.ensureVisible(
+        context,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
     }
   }
 
@@ -73,10 +92,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 // Sección de banner con imagen
                 WidgetHeader(),
                // const SizedBox(height: 80),
-                WidgetImage1(),
+                WidgetImage1(key: somosOntKey),
                 WidgetImage2(),
                 // Sección de misión, visión, etc.
-                WidgetMissionVision(),
+                WidgetMissionVision(key: publicacionesKey),
 
                 // Sección de estadísticas
                 WidgetStatistic(),
@@ -85,13 +104,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 WidgetGraph(),
 
                 // Sección de resumen de gestión (cards)
-                WidgetSummary(),
+                WidgetSummary(key: gestionKey),
+                Container(
+
+                )
               ],
             ),
           ),
 
           // Navbar fijo en la parte superior
-          WidgetNavbar(isScrolled: _isScrolled),
+          //WidgetNavbar(isScrolled: _isScrolled),
+          WidgetNavbar(
+            isScrolled: _isScrolled,
+            scrollToSomosOnt: () => _scrollToSection(somosOntKey),
+            scrollToPublicaciones: () => _scrollToSection(publicacionesKey),
+            scrollToGestion: () => _scrollToSection(gestionKey),
+            scrollToContactanos: () => _scrollToSection(contactanosKey),
+          ),
         ],
       ),
     );
@@ -103,9 +132,17 @@ class WidgetNavbar extends StatelessWidget {
   const WidgetNavbar({
     super.key,
     required bool isScrolled,
+    required this.scrollToSomosOnt,
+    required this.scrollToPublicaciones,
+    required this.scrollToGestion,
+    required this.scrollToContactanos,
   }) : _isScrolled = isScrolled;
 
   final bool _isScrolled;
+  final VoidCallback scrollToSomosOnt;
+  final VoidCallback scrollToPublicaciones;
+  final VoidCallback scrollToGestion;
+  final VoidCallback scrollToContactanos;
 
   @override
   Widget build(BuildContext context) {
@@ -152,10 +189,10 @@ class WidgetNavbar extends StatelessWidget {
             ),
             Row(
               children: [
-                NavItem(text: 'Somos ONT', isScrolled: _isScrolled),
-                NavItem(text:'Publicaciones',isScrolled: _isScrolled),
-                NavItem(text:'Gestión',isScrolled: _isScrolled),
-                NavItem(text:'Contáctanos',isScrolled: _isScrolled),
+                NavItem(text: 'Somos ONT', isScrolled: _isScrolled,onTap: scrollToSomosOnt),
+                NavItem(text:'Publicaciones',isScrolled: _isScrolled,onTap: scrollToPublicaciones),
+                NavItem(text:'Gestión',isScrolled: _isScrolled,onTap:scrollToGestion),
+                NavItem(text:'Contáctanos',isScrolled: _isScrolled,onTap:scrollToContactanos),
               ],
             ),
           ],
@@ -505,19 +542,32 @@ class WidgetMissionVision extends StatelessWidget {
 
 
 class NavItem extends StatelessWidget {
-  const NavItem({super.key, required this.text, required this.isScrolled});
+  const NavItem({
+    super.key,
+    required this.text,
+    required this.isScrolled,
+    required this.onTap,
+  });
+
   final String text;
   final bool isScrolled;
+  final VoidCallback onTap;
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w500,
-          color: isScrolled ? Colors.blue[800] : Colors.white,
+    return InkWell(
+      onTap: onTap,
+      hoverColor: Colors.transparent,
+      splashColor: Colors.transparent,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: isScrolled ? Colors.blue[800] : Colors.white,
+          ),
         ),
       ),
     );
