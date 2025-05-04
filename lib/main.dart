@@ -34,7 +34,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
   bool _isScrolled = false;
-
+  final double _headerHeight = 80;
+  final double _navBarHeight = 60;
 
   final GlobalKey somosOntKey = GlobalKey();
   final GlobalKey publicacionesKey = GlobalKey();
@@ -90,10 +91,12 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                  // Espacio para el navbar fijo
                 // Sección de banner con imagen
+                //SizedBox(height: _headerHeight + _navBarHeight),
                 WidgetHeader(),
-               // const SizedBox(height: 80),
-                WidgetImage1(key: somosOntKey),
-                WidgetImage2(),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                WidgetImage(),
+                /*WidgetImage1(key: somosOntKey),
+                WidgetImage2(),*/
                 // Sección de misión, visión, etc.
                 WidgetMissionVision(key: publicacionesKey),
 
@@ -105,9 +108,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 // Sección de resumen de gestión (cards)
                 WidgetSummary(key: gestionKey),
-                Container(
 
-                )
+                SizedBox(height: 10),
+                WidgetContact(key: contactanosKey),
+                 
               ],
             ),
           ),
@@ -127,6 +131,19 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 }
+
+
+
+double getNavBarHeight(){
+  final double navBarHeight = 60;
+  return navBarHeight;
+}
+
+double gethHeaderHeight(){
+  final double headerHeight = 80;
+  return headerHeight;
+}
+
 
 class WidgetNavbar extends StatelessWidget {
   const WidgetNavbar({
@@ -152,7 +169,7 @@ class WidgetNavbar extends StatelessWidget {
       right: 0,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
-        height: 80,
+        height: MediaQuery.of(context).size.height * 0.1,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
           color: _isScrolled ? Colors.white : Colors.blue[800],
@@ -198,6 +215,31 @@ class WidgetNavbar extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+
+class WidgetContact extends StatelessWidget {
+   WidgetContact({super.key});
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 40),
+        height: MediaQuery.of(context).size.height *0.9,
+        width: MediaQuery.of(context).size.width *0.9,
+        decoration:BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.circular(20),
+        ) ,
+       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+         children: [
+
+         ],
+       ),
     );
   }
 }
@@ -639,6 +681,162 @@ class WidgetImage2 extends StatelessWidget {
   }
 }
 
+
+
+class WidgetImage extends StatefulWidget {
+  const WidgetImage({super.key});
+
+  @override
+  State<WidgetImage> createState() => _WidgetImageState();
+}
+
+class _WidgetImageState extends State<WidgetImage> {
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height * 0.9;
+    final carouselHeight = screenHeight / 2; // Altura del carrusel (primera mitad)
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.9,
+      width: MediaQuery.of(context).size.width,
+      child: Stack(
+        children: [
+          // Contenido principal dividido
+          Column(
+            children: [
+              // Carrusel de imágenes (primera mitad)
+              Expanded(
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: 5,
+                  onPageChanged: (index) {
+                    setState(() {
+                      _currentPage = index;
+                    });
+                  },
+                  itemBuilder: (context, index) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/${index + 1}.jpeg'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+
+              // Segunda mitad con imagen fija
+              Expanded(
+                child: Container(
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/1.jpeg'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          // Botón de navegación izquierdo
+          if (_currentPage > 0)
+            Positioned(
+              left: 20,
+              top: carouselHeight / 2 - 20,
+              child: _buildNavigationButton(
+                icon: Icons.chevron_left,
+                onPressed: () {
+                  _pageController.previousPage(
+                    duration: Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                  );
+                },
+              ),
+            ),
+
+          // Botón de navegación derecho
+          if (_currentPage < 4)
+            Positioned(
+              right: 20,
+              top: carouselHeight / 2 - 20,
+              child: _buildNavigationButton(
+                icon: Icons.chevron_right,
+                onPressed: () {
+                  _pageController.nextPage(
+                    duration: Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                  );
+                },
+              ),
+            ),
+
+          // Indicadores de página
+          Positioned(
+            bottom: MediaQuery.of(context).size.height * 0.5 + 20,
+            left: 0,
+            right: 0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(5, (index) {
+                return Container(
+                  margin: EdgeInsets.symmetric(horizontal: 4),
+                  width: 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _currentPage == index
+                        ? Colors.white
+                        : Colors.white.withOpacity(0.5),
+                  ),
+                );
+              }),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNavigationButton({
+    required IconData icon,
+    required VoidCallback onPressed,
+  }) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0.5),
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 4,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Icon(
+          icon,
+          color: Colors.white,
+          size: 30,
+        ),
+      ),
+    );
+  }
+}
+
 class WidgetImage1 extends StatelessWidget {
   const WidgetImage1({
     super.key,
@@ -691,6 +889,7 @@ class WidgetHeader extends StatelessWidget {
           fit: BoxFit.cover,
         ),
       ),
+
     );
   }
 }
