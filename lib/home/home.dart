@@ -46,7 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
         _isScrolled = false;
       });
     }
-
   }
 
   void _scrollToSection(GlobalKey key) {
@@ -74,37 +73,25 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           SingleChildScrollView(
             controller: _scrollController,
-            child: Column(
-              children: [
-                // Espacio para el navbar fijo
-                // Sección de banner con imagen
-                //SizedBox(height: _headerHeight + _navBarHeight),
-                WidgetHeader(),
-                //SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-                WidgetImage(scroll: _isScrolled,key: somosOntKey),
-                /*WidgetImage1(key: somosOntKey),
-                WidgetImage2(),*/
-                // Sección de misión, visión, etc.
-                WidgetMissionVision(key: MissionKey),
-
-                // Sección de estadísticas
-                WidgetStatistic(/*key: publicacionesKey*/),
-
-                // Sección de gráfica y programación financiera
-                WidgetGraph(key: publicacionesKey),//WidgetGraph(key: graphKey),
-
-                // Sección de resumen de gestión (cards)
-                WidgetSummary(key: gestionKey),
-
-                SizedBox(height: 10),
-                WidgetContact(key: contactanosKey),
-
-              ],
+            child: Center( // Centra el contenido
+              child: Container( // Limita el ancho al 80%
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: Column(
+                  children: [
+                    WidgetHeader(),
+                    WidgetImage(scroll: _isScrolled, key: somosOntKey),
+                    WidgetMissionVision(key: MissionKey),
+                    WidgetStatistic(),
+                    WidgetGraph(key: publicacionesKey),
+                    WidgetSummary(key: gestionKey),
+                    SizedBox(height: 10),
+                    WidgetContact(key: contactanosKey),
+                  ],
+                ),
+              ),
             ),
           ),
-
           // Navbar fijo en la parte superior
-          //WidgetNavbar(isScrolled: _isScrolled),
           WidgetNavbar(
             isScrolled: _isScrolled,
             scrollToSomosOnt: () => _scrollToSection(somosOntKey),
@@ -116,7 +103,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
 }
 
 
@@ -126,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
-class WidgetImage2 extends StatelessWidget {
+  class WidgetImage2 extends StatelessWidget {
   const WidgetImage2({
     super.key,
   });

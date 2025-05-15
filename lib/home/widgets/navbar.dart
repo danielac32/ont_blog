@@ -20,61 +20,77 @@ class WidgetNavbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: _isScrolled? 0: MediaQuery.of(context).size.height * 0.1,
+      top: _isScrolled ? 0 : MediaQuery.of(context).size.height * 0.1,
       left: 0,
       right: 0,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        height: MediaQuery.of(context).size.height * 0.1,
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        decoration: BoxDecoration(
-          color: _isScrolled ? Colors.white : Colors.blue[800],
-          boxShadow: _isScrolled
-              ? [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 10,
-              offset: const Offset(0, 5),
+      child: Center( // Centra el Navbar
+        child: Container( // Limita el ancho al 80%
+          width: MediaQuery.of(context).size.width * 0.8,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            height: MediaQuery.of(context).size.height * 0.05,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            decoration: BoxDecoration(
+              color: _isScrolled ? Colors.white : Colors.blue[800],
+              boxShadow: _isScrolled
+                  ? [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, 5),
+                ),
+              ]
+                  : null,
             ),
-          ]
-              : null,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                if (_isScrolled)
-                  Image.asset(
-                    'assets/logo.png', // Reemplaza con tu logo
-                    height: 50,
-                  ),
-                const SizedBox(width: 10),
-                Text(
-                  'ONT',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: _isScrolled ? Colors.blue[800] : Colors.white,
-                  ),
+                Row(
+                  children: [
+                    if (_isScrolled)
+                      Image.asset(
+                        'assets/logo.png',
+                        height: 50,
+                        fit: BoxFit.cover,
+                      ),
+                    const SizedBox(width: 10),
+                  ],
+                ),
+                Row(
+                  children: [
+                    NavItem(
+                      text: 'Somos ONT',
+                      isScrolled: _isScrolled,
+                      onTap: scrollToSomosOnt,
+                    ),
+                    const SizedBox(width: 20),
+                    NavItem(
+                      text: 'Publicaciones',
+                      isScrolled: _isScrolled,
+                      onTap: scrollToPublicaciones,
+                    ),
+                    const SizedBox(width: 20),
+                    NavItem(
+                      text: 'Gestión',
+                      isScrolled: _isScrolled,
+                      onTap: scrollToGestion,
+                    ),
+                    const SizedBox(width: 20),
+                    NavItem(
+                      text: 'Contáctanos',
+                      isScrolled: _isScrolled,
+                      onTap: scrollToContactanos,
+                    ),
+                  ],
                 ),
               ],
             ),
-            Row(
-              children: [
-                NavItem(text: 'Somos ONT', isScrolled: _isScrolled,onTap: scrollToSomosOnt),
-                NavItem(text:'Publicaciones',isScrolled: _isScrolled,onTap: scrollToPublicaciones),
-                NavItem(text:'Gestión',isScrolled: _isScrolled,onTap:scrollToGestion),
-                NavItem(text:'Contáctanos',isScrolled: _isScrolled,onTap:scrollToContactanos),
-              ],
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
-
 
 
 

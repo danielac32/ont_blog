@@ -12,11 +12,10 @@ class WidgetHeader extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/cintillo2.jpeg'),
-          fit: BoxFit.cover,
+          image: AssetImage('assets/Cintillo.jpg'),
+          fit: BoxFit.fill,
         ),
       ),
-
     );
   }
 }

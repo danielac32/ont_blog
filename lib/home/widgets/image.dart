@@ -22,6 +22,9 @@ class _WidgetImageState extends State<WidgetImage> {
   Widget build(BuildContext context) {
     final screenHeight = widget.scroll? MediaQuery.of(context).size.height * 2: MediaQuery.of(context).size.height * 0.9;
     final carouselHeight = screenHeight / 2; // Altura del carrusel (primera mitad)
+
+
+    final BoxFit imageFit = widget.scroll ? BoxFit.fill : BoxFit.cover;
     return Container(
       height: widget.scroll? MediaQuery.of(context).size.height * 2: MediaQuery.of(context).size.height * 0.9,
       width: MediaQuery.of(context).size.width,
@@ -34,7 +37,7 @@ class _WidgetImageState extends State<WidgetImage> {
               Expanded(
                 child: PageView.builder(
                   controller: _pageController,
-                  itemCount: 5,
+                  itemCount: 6,
                   onPageChanged: (index) {
                     setState(() {
                       _currentPage = index;
@@ -45,7 +48,7 @@ class _WidgetImageState extends State<WidgetImage> {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage('assets/${index + 1}.jpeg'),
-                          fit: BoxFit.cover,
+                          fit: imageFit,
                           alignment: Alignment.center,
                         ),
                       ),
@@ -57,10 +60,10 @@ class _WidgetImageState extends State<WidgetImage> {
               // Segunda mitad con imagen fija
               Expanded(
                 child: Container(
-                  decoration: const BoxDecoration(
+                  decoration:  BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/fondo.jpeg'),
-                      fit: BoxFit.cover,
+                      image: AssetImage('assets/mapavzla.png'),
+                      fit: imageFit,
                     ),
                   ),
                 ),
@@ -85,7 +88,7 @@ class _WidgetImageState extends State<WidgetImage> {
             ),
 
           // Botón de navegación derecho
-          if (_currentPage < 4)
+          if (_currentPage < 5)
             Positioned(
               right: 20,
               top: carouselHeight / 2 - 20,
@@ -107,7 +110,7 @@ class _WidgetImageState extends State<WidgetImage> {
             right: 0,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(5, (index) {
+              children: List.generate(6, (index) {
                 return Container(
                   margin: EdgeInsets.symmetric(horizontal: 4),
                   width: 8,

@@ -8,6 +8,20 @@ class WidgetMissionVision extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: MediaQuery.of(context).size.height ,
+      width: MediaQuery.of(context).size.width,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/Sistema_objetivo.jpg'),
+          fit: BoxFit.fill,
+        ),
+      ),
+    );
+  }
+}
+
+/*
+
       padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 20),
       color: Colors.grey[100],
       child: Column(
@@ -54,9 +68,8 @@ class WidgetMissionVision extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
+ */
+
 class InfoCard extends StatelessWidget {
   InfoCard({super.key, required this.title, required this.content, required this.icon});
   final String title;
