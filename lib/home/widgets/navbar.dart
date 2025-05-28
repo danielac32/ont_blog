@@ -28,7 +28,7 @@ class WidgetNavbar extends StatelessWidget {
           width: MediaQuery.of(context).size.width * 0.8,
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),
-            height: MediaQuery.of(context).size.height * 0.05,
+            height: MediaQuery.of(context).size.height * 0.05,// 0.1
             padding: const EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
               color: _isScrolled ? Colors.white : Colors.blue[800],
