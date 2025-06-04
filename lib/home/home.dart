@@ -7,7 +7,7 @@ import 'package:ont_blog/home/widgets/mission_vision.dart';
 import 'package:ont_blog/home/widgets/navbar.dart';
 import 'package:ont_blog/home/widgets/stadistic.dart';
 import 'package:ont_blog/home/widgets/summary.dart';
-
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -75,17 +75,18 @@ class _HomeScreenState extends State<HomeScreen> {
             controller: _scrollController,
             child: Center( // Centra el contenido
               child: Container( // Limita el ancho al 80%
-                width: MediaQuery.of(context).size.width * 0.8,
+                width: MediaQuery.of(context).size.width ,//* 0.8,
                 child: Column(
                   children: [
                     WidgetHeader(),
                     WidgetImage(scroll: _isScrolled, key: somosOntKey),
                     WidgetMissionVision(key: MissionKey),
-                    WidgetStatistic(),
-                    WidgetGraph(key: publicacionesKey),
+                   // WidgetStatistic(),
+                   // WidgetGraph(key: publicacionesKey),
+                    Widget3NumGraph(key: publicacionesKey),
                     WidgetSummary(key: gestionKey),
                     SizedBox(height: 10),
-                    WidgetContact(key: contactanosKey),
+                    //WidgetContact(key: contactanosKey),
                   ],
                 ),
               ),
@@ -104,6 +105,140 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+
+
+
+
+class Widget3NumGraph extends StatelessWidget {
+   Widget3NumGraph({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 1.5,
+      width: MediaQuery.of(context).size.width,
+      child: Stack(
+        children: [
+          // Imagen de fondo
+          Positioned.fill(
+            child: Image.asset(
+              'assets/bk_bottom.jpg',
+              fit: BoxFit.cover,
+              color: Colors.black.withOpacity(0.1),
+              colorBlendMode: BlendMode.darken,
+            ),
+          ),
+
+          // Contenido encima de la imagen
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 60),
+                // Números estadísticos (Organismos, Gobernaciones, Alcaldías)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Statistic(number: '50', label: 'Organismos'),
+                    Statistic(number: '23', label: 'Gobernaciones'),
+                    Statistic(number: '300', label: 'Alcaldías'),
+                  ],
+                ),
+
+                 SizedBox(height: MediaQuery.of(context).size.height * 0.2),
+
+                // Gráfico (WidgetGraph)
+                GraphChart(),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+class Graph {
+  final String name;
+  final int num;
+
+  Graph({required this.name, required this.num});
+}
+
+
+class GraphChart extends StatelessWidget {
+  final List<Graph> data = [
+    Graph(name: 'Dirección Norte', num: 150),
+    Graph(name: 'Dirección Sur', num: 200),
+    Graph(name: 'Dirección Este', num: 120),
+    Graph(name: 'Dirección Oeste', num: 180),
+  ];
+
+  GraphChart({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+
+          // Gráfico de Torta (Lado izquierdo)
+          child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.blueAccent, // Color azul más intenso
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.blue.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Text(
+                    "Programación Semanal Financiera",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.9,
+                      child: SfCircularChart(
+                        legend: Legend(isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
+                        series: <CircularSeries>[
+                          PieSeries<Graph, String>(
+                            dataSource: data,
+                            xValueMapper: (Graph item, _) => item.name,
+                            yValueMapper: (Graph item, _) => item.num,
+                            dataLabelSettings: const DataLabelSettings(isVisible: true),
+                            enableTooltip: true,
+                          )
+                        ],
+                      )
+                ),
+              ],
+          )
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

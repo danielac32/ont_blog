@@ -25,7 +25,7 @@ class WidgetNavbar extends StatelessWidget {
       right: 0,
       child: Center( // Centra el Navbar
         child: Container( // Limita el ancho al 80%
-          width: MediaQuery.of(context).size.width * 0.8,
+          width: MediaQuery.of(context).size.width ,//* 0.8,
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),
             height: MediaQuery.of(context).size.height * 0.05,// 0.1
