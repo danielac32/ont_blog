@@ -26,7 +26,7 @@ class _WidgetImageState extends State<WidgetImage> {
 
     final BoxFit imageFit = BoxFit.cover;//widget.scroll ? BoxFit.fill : BoxFit.cover;
     return Container(
-      height: MediaQuery.of(context).size.height ,//* 0.9,//widget.scroll? MediaQuery.of(context).size.height * 2: MediaQuery.of(context).size.height * 0.9,
+      height: widget.scroll? MediaQuery.of(context).size.height * 2: MediaQuery.of(context).size.height * 0.9,//MediaQuery.of(context).size.height * 2,//* 0.9,//widget.scroll? MediaQuery.of(context).size.height * 2: MediaQuery.of(context).size.height * 0.9,
       width: MediaQuery.of(context).size.width,
       child: Stack(
         children: [

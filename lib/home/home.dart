@@ -125,7 +125,7 @@ class Widget3NumGraph extends StatelessWidget {
             child: Image.asset(
               'assets/bk_bottom.jpg',
               fit: BoxFit.cover,
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withOpacity(0.2),
               colorBlendMode: BlendMode.darken,
             ),
           ),
