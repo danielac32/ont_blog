@@ -20,13 +20,13 @@ class _WidgetImageState extends State<WidgetImage> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = widget.scroll? MediaQuery.of(context).size.height * 2: MediaQuery.of(context).size.height * 0.9;
+    final screenHeight = MediaQuery.of(context).size.height;//widget.scroll? MediaQuery.of(context).size.height * 2: MediaQuery.of(context).size.height * 0.9;
     final carouselHeight = screenHeight / 2; // Altura del carrusel (primera mitad)
 
 
     final BoxFit imageFit = BoxFit.cover;//widget.scroll ? BoxFit.fill : BoxFit.cover;
     return Container(
-      height: widget.scroll? MediaQuery.of(context).size.height * 2: MediaQuery.of(context).size.height * 0.9,//MediaQuery.of(context).size.height * 2,//* 0.9,//widget.scroll? MediaQuery.of(context).size.height * 2: MediaQuery.of(context).size.height * 0.9,
+      height: MediaQuery.of(context).size.height,//widget.scroll? MediaQuery.of(context).size.height * 2: MediaQuery.of(context).size.height * 0.9,//MediaQuery.of(context).size.height * 2,//* 0.9,//widget.scroll? MediaQuery.of(context).size.height * 2: MediaQuery.of(context).size.height * 0.9,
       width: MediaQuery.of(context).size.width,
       child: Stack(
         children: [

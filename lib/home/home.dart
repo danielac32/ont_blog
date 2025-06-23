@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
             controller: _scrollController,
             child: Center( // Centra el contenido
               child: Container( // Limita el ancho al 80%
-                width: MediaQuery.of(context).size.width ,//* 0.8,
+                //width: MediaQuery.of(context).size.width ,//* 0.8,
                 child: Column(
                   children: [
                     WidgetHeader(),
